@@ -16,6 +16,7 @@ export const theme = defineType({
       name: 'logo',
       title: 'Logo',
       type: 'object',
+      validation: (rule) => rule.required(),
       fields: [
         defineField({
           name: 'primary',
