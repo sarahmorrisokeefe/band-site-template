@@ -18,4 +18,12 @@ describe('sectionVariants', () => {
     expect(result).toContain('bg-foreground');
     expect(result).toContain('text-background');
   });
+
+  it('applies the muted tone', () => {
+    expect(sectionVariants({ tone: 'muted' })).toContain('bg-foreground/[0.04]');
+  });
+
+  it('applies the wide width', () => {
+    expect(sectionVariants({ width: 'wide' })).toContain('max-w-7xl');
+  });
 });

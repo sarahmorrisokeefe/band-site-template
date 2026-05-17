@@ -1,4 +1,4 @@
-import type { CSSProperties, HTMLAttributes } from 'react';
+import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 
@@ -22,7 +22,9 @@ export const sectionVariants = cva('w-full', {
 });
 
 type SectionProps = VariantProps<typeof sectionVariants> &
-  HTMLAttributes<HTMLElement>;
+  HTMLAttributes<HTMLElement> & {
+    children?: ReactNode;
+  };
 
 /**
  * Page section wrapper. Vertical padding is density-aware — it reads the
