@@ -7,6 +7,7 @@ describe('themeToCssVars', () => {
     const vars = themeToCssVars(null);
     expect(vars['--brand-radius']).toBe('6px');
     expect(vars['--brand-space-section']).toBe('4rem');
+    expect(vars['--brand-space-block']).toBe('2rem');
   });
 
   it('maps a hex color onto the matching brand variable', () => {
