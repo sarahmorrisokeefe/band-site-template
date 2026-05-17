@@ -4,7 +4,7 @@ import { contrastRatio } from './contrast';
 
 describe('contrastRatio', () => {
   it('returns 21 for black on white', () => {
-    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 0);
+    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 5);
   });
 
   it('returns 1 for a color against itself', () => {
