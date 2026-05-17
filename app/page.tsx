@@ -1,80 +1,43 @@
-import Link from 'next/link';
-
-import { getBand } from '@/lib/sanity/queries';
-
-/**
- * Homepage — a Server Component smoke test.
- *
- * It proves the full data path: env -> client -> query layer -> Server
- * Component -> rendered output. It fetches via `lib/sanity/queries` and never
- * touches the Sanity client directly. The future component library will
- * follow the same rule, receiving data as props.
- */
-
-type Band = NonNullable<Awaited<ReturnType<typeof getBand>>>;
+import { BandLogo } from '@/components/primitives/band-logo';
+import { Button } from '@/components/primitives/button';
+import { Heading } from '@/components/primitives/heading';
+import { Section } from '@/components/primitives/section';
+import { RichText } from '@/components/rich-text/rich-text';
+import { getBand, getTheme } from '@/lib/sanity/queries';
 
 /**
- * Flatten Portable Text blocks to plain text.
- *
- * A smoke-test shortcut only. Proper rich-text rendering (headings, marks,
- * links) belongs in the component library and is out of scope here.
+ * Phase 1 proof page: every primitive rendered with the live brand theme.
+ * Phase 6 replaces this with the real composed homepage.
  */
-function bioToText(bio: Band['bio']): string {
-  if (!bio) return '';
-  return bio
-    .map((block) => (block.children ?? []).map((c) => c.text ?? '').join(''))
-    .filter(Boolean)
-    .join('\n\n');
-}
-
 export default async function HomePage() {
-  const band = await getBand();
-
-  if (!band?.name) {
-    return (
-      <main className="mx-auto flex max-w-2xl flex-1 flex-col justify-center gap-4 px-6 py-24">
-        <h1 className="text-2xl font-semibold">No band content yet</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          Add the band in the Studio, then reload this page.
-        </p>
-        <Link
-          href="/studio"
-          className="font-medium underline underline-offset-4"
-        >
-          Open the Studio →
-        </Link>
-      </main>
-    );
-  }
-
-  const bio = bioToText(band.bio);
+  const [band, theme] = await Promise.all([getBand(), getTheme()]);
 
   return (
-    <main className="mx-auto flex max-w-2xl flex-1 flex-col justify-center gap-6 px-6 py-24">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-4xl font-bold tracking-tight">{band.name}</h1>
-        {(band.genre || band.foundedYear) && (
-          <p className="text-sm uppercase tracking-wide text-zinc-500">
-            {[band.genre, band.foundedYear].filter(Boolean).join(' · ')}
-          </p>
-        )}
-      </header>
+    <Section width="narrow" className="flex flex-col gap-8">
+      {theme?.logo ? (
+        <BandLogo logo={theme.logo} alt={band?.name ?? 'Band logo'} size="lg" />
+      ) : null}
 
-      {bio && (
-        <div className="flex flex-col gap-4 text-lg leading-8 text-zinc-700 dark:text-zinc-300">
-          {bio.split('\n\n').map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
-      )}
+      <div className="flex flex-col gap-2">
+        <Heading as="h1" size="xl">
+          {band?.name ?? 'Band Site'}
+        </Heading>
+        <p className="text-sm uppercase tracking-wide text-muted">
+          Phase 1 foundation — primitives on the live theme
+        </p>
+      </div>
 
-      <p className="text-sm text-zinc-500">
-        Editing content?{' '}
-        <Link href="/studio" className="underline underline-offset-4">
-          Open the Studio
-        </Link>
-        .
-      </p>
-    </main>
+      {band?.bio ? <RichText value={band.bio} /> : null}
+
+      <div className="flex flex-wrap gap-3">
+        <Button href="/studio">Open the Studio</Button>
+        <Button variant="secondary" href="/studio">
+          Edit content
+        </Button>
+        <Button variant="ghost" href="/studio">
+          More
+        </Button>
+      </div>
+    </Section>
   );
 }
