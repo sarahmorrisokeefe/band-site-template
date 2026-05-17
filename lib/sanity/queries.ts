@@ -31,3 +31,24 @@ export function getBand() {
     { next: { revalidate: 60, tags: ['band'] } },
   );
 }
+
+export const THEME_QUERY = defineQuery(`*[_type == "theme"][0]{
+  logo,
+  colors,
+  radius,
+  density
+}`);
+
+/**
+ * Fetch the brand theme singleton.
+ *
+ * Cached for an hour and tagged `theme` — it changes rarely but sits on every
+ * page's critical path, so it must not inherit the 60s content cadence.
+ */
+export function getTheme() {
+  return client.fetch(
+    THEME_QUERY,
+    {},
+    { next: { revalidate: 3600, tags: ['theme'] } },
+  );
+}

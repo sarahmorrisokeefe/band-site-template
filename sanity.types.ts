@@ -179,6 +179,71 @@ export type Band = {
   genre?: string;
 };
 
+export type Theme = {
+  _id: string;
+  _type: "theme";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  logo?: {
+    primary?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    mark?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  };
+  colors?: {
+    primary?: Color;
+    accent?: Color;
+    background?: Color;
+    foreground?: Color;
+  };
+  radius?: "sharp" | "subtle" | "rounded";
+  density?: "compact" | "normal" | "airy";
+};
+
+export type Color = {
+  _type: "color";
+  hex?: string;
+  alpha?: number;
+  hsl?: HslaColor;
+  hsv?: HsvaColor;
+  rgb?: RgbaColor;
+};
+
+export type RgbaColor = {
+  _type: "rgbaColor";
+  r?: number;
+  g?: number;
+  b?: number;
+  a?: number;
+};
+
+export type HsvaColor = {
+  _type: "hsvaColor";
+  h?: number;
+  s?: number;
+  v?: number;
+  a?: number;
+};
+
+export type HslaColor = {
+  _type: "hslaColor";
+  h?: number;
+  s?: number;
+  l?: number;
+  a?: number;
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -286,6 +351,11 @@ export type AllSanitySchemaTypes =
   | Show
   | Member
   | Band
+  | Theme
+  | Color
+  | RgbaColor
+  | HsvaColor
+  | HslaColor
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -329,10 +399,41 @@ export type BAND_QUERY_RESULT = {
   genre: string | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: THEME_QUERY
+// Query: *[_type == "theme"][0]{  logo,  colors,  radius,  density}
+export type THEME_QUERY_RESULT = {
+  logo: {
+    primary?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    mark?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  } | null;
+  colors: {
+    primary?: Color;
+    accent?: Color;
+    background?: Color;
+    foreground?: Color;
+  } | null;
+  radius: "rounded" | "sharp" | "subtle" | null;
+  density: "airy" | "compact" | "normal" | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "band"][0]{\n  name,\n  bio,\n  logo,\n  foundedYear,\n  genre\n}': BAND_QUERY_RESULT;
+    '*[_type == "theme"][0]{\n  logo,\n  colors,\n  radius,\n  density\n}': THEME_QUERY_RESULT;
   }
 }
