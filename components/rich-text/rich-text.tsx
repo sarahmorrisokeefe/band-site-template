@@ -22,7 +22,7 @@ const components: PortableTextComponents = {
       <p className="mb-4 leading-7 text-foreground">{children}</p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-2 border-primary pl-4 italic text-muted">
+      <blockquote className="mb-4 border-l-2 border-primary pl-4 italic text-muted">
         {children}
       </blockquote>
     ),
@@ -31,6 +31,7 @@ const components: PortableTextComponents = {
     link: ({ children, value }) => (
       <a
         href={value?.href}
+        rel="noopener noreferrer"
         className="text-primary underline underline-offset-4"
       >
         {children}
