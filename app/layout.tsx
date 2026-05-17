@@ -20,6 +20,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${sans.variable} ${display.variable} h-full antialiased`}
       style={themeToCssVars(theme)}
     >
