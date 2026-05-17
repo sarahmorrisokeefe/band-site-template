@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 
@@ -21,11 +21,11 @@ export const headingVariants = cva('font-display tracking-tight', {
   defaultVariants: { size: 'md', tone: 'default' },
 });
 
-type HeadingProps = VariantProps<typeof headingVariants> & {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  className?: string;
-  children: ReactNode;
-};
+type HeadingProps = VariantProps<typeof headingVariants> &
+  HTMLAttributes<HTMLHeadingElement> & {
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+    children: ReactNode;
+  };
 
 /** Heading whose semantic tag (`as`) is decoupled from its visual `size`. */
 export function Heading({
@@ -34,9 +34,10 @@ export function Heading({
   tone,
   className,
   children,
+  ...rest
 }: HeadingProps) {
   return (
-    <Tag className={cn(headingVariants({ size, tone }), className)}>
+    <Tag className={cn(headingVariants({ size, tone }), className)} {...rest}>
       {children}
     </Tag>
   );
