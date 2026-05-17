@@ -40,15 +40,28 @@ const components: PortableTextComponents = {
   },
 };
 
+/** A Sanity block-content array, as produced by `sanity typegen`. */
+type SanityBlockContent = readonly { _type: string; _key: string }[];
+
 /**
  * Themed Portable Text renderer. Composes the `Heading` primitive so
  * rich-text headings match standalone ones. Used by About and page bodies.
+ *
+ * `value` accepts any Sanity block-content array (the shape `sanity typegen`
+ * emits). `sanity typegen` marks block `children` optional while
+ * PortableText's `PortableTextBlock` requires it; the shapes match at runtime,
+ * so a single bridging cast is done here rather than at every call site.
  */
 export function RichText({
   value,
 }: {
-  value: PortableTextBlock[] | null | undefined;
+  value: SanityBlockContent | null | undefined;
 }) {
   if (!value || value.length === 0) return null;
-  return <PortableText value={value} components={components} />;
+  return (
+    <PortableText
+      value={value as unknown as PortableTextBlock[]}
+      components={components}
+    />
+  );
 }
