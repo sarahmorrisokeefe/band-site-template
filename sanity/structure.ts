@@ -1,7 +1,7 @@
 import type { StructureResolver } from 'sanity/structure';
 
 /** Document types that are singletons: exactly one instance, with a fixed id. */
-export const SINGLETON_TYPES = new Set<string>(['band']);
+export const SINGLETON_TYPES = new Set<string>(['band', 'theme']);
 
 /**
  * Studio structure.
@@ -13,6 +13,11 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
     .items([
+      S.listItem()
+        .title('Theme')
+        .id('theme')
+        .schemaType('theme')
+        .child(S.document().schemaType('theme').documentId('theme')),
       S.listItem()
         .title('Band')
         .id('band')
