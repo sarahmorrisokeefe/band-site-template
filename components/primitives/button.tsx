@@ -5,7 +5,7 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/lib/cn';
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-brand font-semibold transition-colors disabled:opacity-50',
+  'inline-flex items-center justify-center rounded-brand font-semibold transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
   {
     variants: {
       variant: {
@@ -28,6 +28,14 @@ type ButtonProps = VariantProps<typeof buttonVariants> &
   HTMLAttributes<HTMLElement> & {
     /** When set, the button renders as an anchor. */
     href?: string;
+    /** Anchor target (only applied when `href` is set). */
+    target?: string;
+    /** Anchor rel (only applied when `href` is set). */
+    rel?: string;
+    /** Native button type. Defaults to `button` to avoid accidental form submits. */
+    type?: 'button' | 'submit' | 'reset';
+    /** Disabled state (only applied to the `<button>` form). */
+    disabled?: boolean;
     className?: string;
     children: ReactNode;
   };
@@ -37,6 +45,10 @@ export function Button({
   variant,
   size,
   href,
+  target,
+  rel,
+  type,
+  disabled,
   className,
   children,
   ...rest
@@ -44,13 +56,18 @@ export function Button({
   const classes = cn(buttonVariants({ variant, size }), className);
   if (href) {
     return (
-      <a href={href} className={classes} {...rest}>
+      <a href={href} target={target} rel={rel} className={classes} {...rest}>
         {children}
       </a>
     );
   }
   return (
-    <button className={classes} {...rest}>
+    <button
+      type={type ?? 'button'}
+      disabled={disabled}
+      className={classes}
+      {...rest}
+    >
       {children}
     </button>
   );

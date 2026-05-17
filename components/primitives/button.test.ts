@@ -13,6 +13,10 @@ describe('buttonVariants', () => {
     expect(buttonVariants({ variant: 'ghost' })).toContain('text-foreground');
   });
 
+  it('applies the secondary variant', () => {
+    expect(buttonVariants({ variant: 'secondary' })).toContain('border-primary');
+  });
+
   it('applies the lg size', () => {
     expect(buttonVariants({ size: 'lg' })).toContain('px-6');
   });
