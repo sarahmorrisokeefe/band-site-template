@@ -28,13 +28,13 @@ export function StatsGrid({ variant, stats, className }: StatsGridProps) {
   return (
     <dl className={cn(statsGridVariants({ variant }), className)}>
       {items.map((stat) => (
-        <div key={stat._key} className="flex flex-col gap-1">
-          <dd className="font-display text-4xl font-extrabold text-primary">
-            {stat.value}
-          </dd>
+        <div key={stat._key} className="flex flex-col-reverse gap-1">
           <dt className="text-sm uppercase tracking-wide text-muted">
             {stat.label}
           </dt>
+          <dd className="font-display text-4xl font-extrabold text-primary">
+            {stat.value}
+          </dd>
         </div>
       ))}
     </dl>
