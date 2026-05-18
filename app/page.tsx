@@ -1,4 +1,5 @@
 import { About, type AboutBio } from '@/components/blocks/about';
+import { BookingForm } from '@/components/blocks/booking-form';
 import { CoverReel } from '@/components/blocks/cover-reel';
 import { Hero, type HeroBand } from '@/components/blocks/hero';
 import type { LinkItem } from '@/components/blocks/link-item';
@@ -282,6 +283,11 @@ export default async function HomePage() {
           <Setlist variant={variant} covers={SAMPLE_COVERS} />
         </section>
       ))}
+
+      <section>
+        <Caption>BookingForm</Caption>
+        <BookingForm />
+      </section>
 
       {(['columns', 'stacked'] as const).map((variant) => (
         <section key={variant}>
