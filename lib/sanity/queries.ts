@@ -93,7 +93,7 @@ export function getShows() {
   );
 }
 
-export const RELEASES_QUERY = defineQuery(`*[_type == "music" && kind != "cover"]|order(releaseDate desc){
+export const RELEASES_QUERY = defineQuery(`*[_type == "music" && kind != "cover"]|order(coalesce(releaseDate, _createdAt) desc){
   _id,
   kind,
   title,
