@@ -5,7 +5,7 @@ import { structureTool } from 'sanity/structure';
 
 import { apiVersion, dataset, projectId } from './lib/sanity/env';
 import { schemaTypes } from './sanity/schemas';
-import { SINGLETON_TYPES, structure } from './sanity/structure';
+import { SINGLETON_TYPES, SUBMISSION_TYPES, structure } from './sanity/structure';
 
 /** Document actions permitted on singleton documents. */
 const SINGLETON_ACTIONS = new Set(['publish', 'discardChanges', 'restore']);
@@ -20,7 +20,11 @@ export default defineConfig({
     types: schemaTypes,
     // Singletons are not creatable from the global "create new" menu.
     templates: (templates) =>
-      templates.filter(({ schemaType }) => !SINGLETON_TYPES.has(schemaType)),
+      templates.filter(
+        ({ schemaType }) =>
+          !SINGLETON_TYPES.has(schemaType) &&
+          !SUBMISSION_TYPES.has(schemaType),
+      ),
   },
   document: {
     // Singletons can be published/reverted but never deleted or duplicated.

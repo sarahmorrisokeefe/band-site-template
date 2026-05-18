@@ -4,10 +4,20 @@ import type { StructureResolver } from 'sanity/structure';
 export const SINGLETON_TYPES = new Set<string>(['band', 'theme']);
 
 /**
+ * Submission types — written by the form server action, not authored by
+ * editors. Kept out of the Studio "create" menu (see `sanity.config.ts`).
+ */
+export const SUBMISSION_TYPES = new Set<string>([
+  'bookingRequest',
+  'subscriber',
+]);
+
+/**
  * Studio structure.
  *
- * `theme` and `band` are pinned as single editable documents. Every other type
- * is an ordinary collection.
+ * `theme` and `band` are pinned as single editable documents. Other content
+ * types are ordinary collections. Submission types are listed last so editors
+ * can read them.
  */
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -28,4 +38,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('show').title('Shows'),
       S.documentTypeListItem('music').title('Music'),
       S.documentTypeListItem('page').title('Pages'),
+      S.divider(),
+      S.documentTypeListItem('bookingRequest').title('Booking Requests'),
+      S.documentTypeListItem('subscriber').title('Subscribers'),
     ]);

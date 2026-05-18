@@ -1,10 +1,12 @@
 import type { SchemaTypeDefinition } from 'sanity';
 
 import { band } from './band';
+import { bookingRequest } from './bookingRequest';
 import { member } from './member';
 import { music } from './music';
 import { page } from './page';
 import { show } from './show';
+import { subscriber } from './subscriber';
 import { theme } from './theme';
 
 /**
@@ -20,4 +22,6 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   show,
   music,
   page,
+  bookingRequest,
+  subscriber,
 ];
