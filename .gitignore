@@ -19,6 +19,7 @@
 
 # superpowers
 /docs/superpowers/
+/.superpowers/
 
 # production
 /build
@@ -47,3 +48,6 @@ next-env.d.ts
 # sanity typegen — schema.json is a regenerable intermediate;
 # sanity.types.ts is committed.
 schema.json
+
+# claude code (local tooling state)
+/.claude/
