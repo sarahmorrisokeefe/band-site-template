@@ -5,6 +5,7 @@ import { cn } from '@/lib/cn';
 import type { THEME_QUERY_RESULT } from '@/sanity.types';
 
 import type { LinkItem } from './link-item';
+import { MailingListSignup } from './mailing-list-signup';
 import { siteFooterVariants } from './site-footer-variants';
 import { SocialLinkList, type SocialLinks } from './social-links';
 
@@ -20,9 +21,8 @@ type SiteFooterProps = VariantProps<typeof siteFooterVariants> & {
 
 /**
  * SiteFooter block: band logo (or text wordmark), copyright, section
- * navigation, and social
- * links. Nav items are supplied by the page, mirroring SiteHeader. The
- * mailing-list signup is a form and is added to this block in Phase 5.
+ * navigation, social links, and the mailing-list signup. Nav items are
+ * supplied by the page, mirroring SiteHeader.
  */
 export function SiteFooter({
   variant,
@@ -59,6 +59,8 @@ export function SiteFooter({
       </nav>
 
       <SocialLinkList links={socialLinks} />
+
+      <MailingListSignup className="md:max-w-xs" />
     </footer>
   );
 }
