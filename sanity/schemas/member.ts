@@ -30,6 +30,12 @@ export const member = defineType({
       type: 'array',
       of: [{ type: 'block' }],
     }),
+    defineField({
+      name: 'socialHandle',
+      title: 'Social Handle',
+      type: 'string',
+      description: 'e.g. "@giannacaminiti".',
+    }),
   ],
   preview: {
     select: { title: 'name', subtitle: 'role', media: 'photo' },
