@@ -93,8 +93,19 @@ export const demoMembers = [
   },
 ];
 
+/** Shape of a demo show document body (the seed script adds `_id` / `_type`). */
+type DemoShow = {
+  date: string;
+  venueName: string;
+  venueCity: string;
+  venueArea: string | null;
+  supportAct: string | null;
+  ticketUrl: string | null;
+  status: string;
+};
+
 /** Demo shows — one of every status, with varied venues and dates. */
-export const demoShows = [
+export const demoShows: DemoShow[] = [
   {
     date: '2026-06-12T20:00:00Z',
     venueName: 'The Underground',
@@ -142,12 +153,31 @@ export const demoShows = [
   },
 ];
 
+/** Per-release streaming links; every platform is optional. */
+type DemoMusicLinks = {
+  spotify?: string;
+  appleMusic?: string;
+  bandcamp?: string;
+  youtube?: string;
+};
+
+/** Shape of a demo music document body (the seed script adds `_id` / `_type`). */
+type DemoMusic = {
+  kind: string;
+  title: string;
+  originalArtist: string | null;
+  releaseDate: string | null;
+  videoUrl: string | null;
+  note: string | null;
+  links: DemoMusicLinks | null;
+};
+
 /**
  * Demo music — three originals then three covers. Every item carries every
  * field (with `null` where it does not apply) so the array is one clean shape.
  * The seed script attaches `coverArt` to each.
  */
-export const demoMusic = [
+export const demoMusic: DemoMusic[] = [
   {
     kind: 'album',
     title: 'Daylight Hours',
