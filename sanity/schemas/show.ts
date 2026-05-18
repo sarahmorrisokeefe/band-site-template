@@ -24,15 +24,38 @@ export const show = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'venueArea',
+      title: 'Venue Area / Neighborhood',
+      type: 'string',
+      description: 'Optional neighborhood, e.g. "NoDa".',
+    }),
+    defineField({
+      name: 'supportAct',
+      title: 'Support Act',
+      type: 'string',
+      description: 'Opening or supporting act, e.g. "Sweater Weather".',
+    }),
+    defineField({
       name: 'ticketUrl',
       title: 'Ticket URL',
       type: 'url',
     }),
     defineField({
-      name: 'isSoldOut',
-      title: 'Sold Out',
-      type: 'boolean',
-      initialValue: false,
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'On Sale', value: 'onSale' },
+          { title: 'Sold Out', value: 'soldOut' },
+          { title: 'Waitlist', value: 'waitlist' },
+          { title: 'Free', value: 'free' },
+          { title: 'Few Left', value: 'fewLeft' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'onSale',
+      validation: (rule) => rule.required(),
     }),
   ],
   orderings: [
