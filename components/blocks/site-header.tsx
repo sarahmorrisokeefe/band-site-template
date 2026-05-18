@@ -6,14 +6,12 @@ import type { THEME_QUERY_RESULT } from '@/sanity.types';
 
 import type { LinkItem } from './link-item';
 import { siteHeaderVariants } from './site-header-variants';
+import { SocialLinkList, type SocialLinks } from './social-links';
 
 type ThemeLogo = NonNullable<THEME_QUERY_RESULT>['logo'];
 
-/** Social profile URLs keyed by platform; falsy entries are skipped. */
-export type SocialLinks =
-  | Record<string, string | null | undefined>
-  | null
-  | undefined;
+/** Re-exported for callers that still import the type from this module. */
+export type { SocialLinks };
 
 type SiteHeaderProps = VariantProps<typeof siteHeaderVariants> & {
   logo: ThemeLogo;
@@ -35,12 +33,6 @@ export function SiteHeader({
   socialLinks,
   className,
 }: SiteHeaderProps) {
-  const socials: Array<[string, string]> = socialLinks
-    ? Object.entries(socialLinks).filter(
-        (entry): entry is [string, string] => Boolean(entry[1]),
-      )
-    : [];
-
   return (
     <header className={cn(siteHeaderVariants({ variant }), className)}>
       <BandLogo logo={logo} alt={bandName} size="sm" />
@@ -57,21 +49,7 @@ export function SiteHeader({
         ))}
       </nav>
 
-      {variant !== 'minimal' && socials.length > 0 ? (
-        <div className="flex items-center gap-3">
-          {socials.map(([platform, url]) => (
-            <a
-              key={platform}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs uppercase tracking-wide text-muted hover:text-primary"
-            >
-              {platform}
-            </a>
-          ))}
-        </div>
-      ) : null}
+      {variant !== 'minimal' ? <SocialLinkList links={socialLinks} /> : null}
     </header>
   );
 }
