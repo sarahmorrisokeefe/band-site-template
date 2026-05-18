@@ -87,10 +87,10 @@ export const music = defineType({
       artist: 'originalArtist',
       media: 'coverArt',
     },
-    prepare({ title, kind, artist }) {
+    prepare({ title, kind, artist, media }) {
       const subtitle =
         kind === 'cover' && artist ? `Cover · ${artist}` : (kind ?? '');
-      return { title, subtitle };
+      return { title, subtitle, media };
     },
   },
 });
