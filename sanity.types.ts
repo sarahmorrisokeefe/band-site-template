@@ -15,6 +15,33 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type Subscriber = {
+  _id: string;
+  _type: "subscriber";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  email?: string;
+  subscribedAt?: string;
+};
+
+export type BookingRequest = {
+  _id: string;
+  _type: "bookingRequest";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  email?: string;
+  eventType?: string;
+  venue?: string;
+  city?: string;
+  date?: string;
+  setLength?: string;
+  message?: string;
+  submittedAt?: string;
+};
+
 export type Page = {
   _id: string;
   _type: "page";
@@ -56,14 +83,15 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
-export type Release = {
+export type Music = {
   _id: string;
-  _type: "release";
+  _type: "music";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  kind?: "album" | "ep" | "single" | "cover";
   title?: string;
-  releaseType?: "album" | "ep" | "single";
+  originalArtist?: string;
   coverArt?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -72,10 +100,13 @@ export type Release = {
     _type: "image";
   };
   releaseDate?: string;
-  streamingLinks?: {
+  videoUrl?: string;
+  note?: string;
+  links?: {
     spotify?: string;
     appleMusic?: string;
     bandcamp?: string;
+    youtube?: string;
   };
 };
 
@@ -104,8 +135,10 @@ export type Show = {
   date?: string;
   venueName?: string;
   venueCity?: string;
+  venueArea?: string;
+  supportAct?: string;
   ticketUrl?: string;
-  isSoldOut?: boolean;
+  status?: "onSale" | "soldOut" | "waitlist" | "free" | "fewLeft";
 };
 
 export type Member = {
@@ -141,6 +174,7 @@ export type Member = {
     _type: "block";
     _key: string;
   }>;
+  socialHandle?: string;
 };
 
 export type Band = {
@@ -168,15 +202,23 @@ export type Band = {
     _type: "block";
     _key: string;
   }>;
-  logo?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
   foundedYear?: number;
   genre?: string;
+  hometown?: string;
+  stats?: Array<{
+    label?: string;
+    value?: string;
+    _type: "stat";
+    _key: string;
+  }>;
+  socialLinks?: {
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    spotify?: string;
+    appleMusic?: string;
+    bandcamp?: string;
+  };
 };
 
 export type Theme = {
@@ -342,10 +384,12 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | Subscriber
+  | BookingRequest
   | Page
   | Slug
   | SanityImageAssetReference
-  | Release
+  | Music
   | SanityImageCrop
   | SanityImageHotspot
   | Show
@@ -367,7 +411,7 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/queries.ts
 // Variable: BAND_QUERY
-// Query: *[_type == "band"][0]{  name,  bio,  logo,  foundedYear,  genre}
+// Query: *[_type == "band"][0]{  name,  bio,  foundedYear,  genre,  hometown,  stats,  socialLinks}
 export type BAND_QUERY_RESULT = {
   name: string | null;
   bio: Array<{
@@ -388,15 +432,23 @@ export type BAND_QUERY_RESULT = {
     _type: "block";
     _key: string;
   }> | null;
-  logo: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  } | null;
   foundedYear: number | null;
   genre: string | null;
+  hometown: string | null;
+  stats: Array<{
+    label?: string;
+    value?: string;
+    _type: "stat";
+    _key: string;
+  }> | null;
+  socialLinks: {
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    spotify?: string;
+    appleMusic?: string;
+    bandcamp?: string;
+  } | null;
 } | null;
 
 // Source: lib/sanity/queries.ts
@@ -429,11 +481,112 @@ export type THEME_QUERY_RESULT = {
   density: "airy" | "compact" | "normal" | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: MEMBERS_QUERY
+// Query: *[_type == "member"]|order(name asc){  _id,  name,  role,  photo,  bio,  socialHandle}
+export type MEMBERS_QUERY_RESULT = Array<{
+  _id: string;
+  name: string | null;
+  role: string | null;
+  photo: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  bio: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  socialHandle: string | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: SHOWS_QUERY
+// Query: *[_type == "show"]|order(date asc){  _id,  date,  venueName,  venueCity,  venueArea,  supportAct,  ticketUrl,  status}
+export type SHOWS_QUERY_RESULT = Array<{
+  _id: string;
+  date: string | null;
+  venueName: string | null;
+  venueCity: string | null;
+  venueArea: string | null;
+  supportAct: string | null;
+  ticketUrl: string | null;
+  status: "fewLeft" | "free" | "onSale" | "soldOut" | "waitlist" | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: RELEASES_QUERY
+// Query: *[_type == "music" && kind != "cover"]|order(coalesce(releaseDate, _createdAt) desc){  _id,  kind,  title,  coverArt,  releaseDate,  note,  links}
+export type RELEASES_QUERY_RESULT = Array<{
+  _id: string;
+  kind: "album" | "cover" | "ep" | "single" | null;
+  title: string | null;
+  coverArt: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  releaseDate: string | null;
+  note: string | null;
+  links: {
+    spotify?: string;
+    appleMusic?: string;
+    bandcamp?: string;
+    youtube?: string;
+  } | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: COVERS_QUERY
+// Query: *[_type == "music" && kind == "cover"]|order(coalesce(releaseDate, _createdAt) desc){  _id,  title,  originalArtist,  coverArt,  videoUrl,  note,  links}
+export type COVERS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  originalArtist: string | null;
+  coverArt: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  videoUrl: string | null;
+  note: string | null;
+  links: {
+    spotify?: string;
+    appleMusic?: string;
+    bandcamp?: string;
+    youtube?: string;
+  } | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "band"][0]{\n  name,\n  bio,\n  logo,\n  foundedYear,\n  genre\n}': BAND_QUERY_RESULT;
+    '*[_type == "band"][0]{\n  name,\n  bio,\n  foundedYear,\n  genre,\n  hometown,\n  stats,\n  socialLinks\n}': BAND_QUERY_RESULT;
     '*[_type == "theme"][0]{\n  logo,\n  colors,\n  radius,\n  density\n}': THEME_QUERY_RESULT;
+    '*[_type == "member"]|order(name asc){\n  _id,\n  name,\n  role,\n  photo,\n  bio,\n  socialHandle\n}': MEMBERS_QUERY_RESULT;
+    '*[_type == "show"]|order(date asc){\n  _id,\n  date,\n  venueName,\n  venueCity,\n  venueArea,\n  supportAct,\n  ticketUrl,\n  status\n}': SHOWS_QUERY_RESULT;
+    '*[_type == "music" && kind != "cover"]|order(coalesce(releaseDate, _createdAt) desc){\n  _id,\n  kind,\n  title,\n  coverArt,\n  releaseDate,\n  note,\n  links\n}': RELEASES_QUERY_RESULT;
+    '*[_type == "music" && kind == "cover"]|order(coalesce(releaseDate, _createdAt) desc){\n  _id,\n  title,\n  originalArtist,\n  coverArt,\n  videoUrl,\n  note,\n  links\n}': COVERS_QUERY_RESULT;
   }
 }
