@@ -109,6 +109,7 @@ export function Hero({
               alt={band.name ?? 'Band'}
               width={1200}
               height={1200}
+              sizes="(min-width: 768px) 50vw, 100vw"
               className="h-full w-full object-cover"
               priority
             />
@@ -139,6 +140,7 @@ export function Hero({
           alt={band.name ?? 'Band'}
           width={1920}
           height={1080}
+          sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover"
           priority
         />
