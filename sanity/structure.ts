@@ -6,8 +6,8 @@ export const SINGLETON_TYPES = new Set<string>(['band', 'theme']);
 /**
  * Studio structure.
  *
- * `band` is pinned as a single editable document so editors open it directly
- * and cannot create duplicates. Every other type is an ordinary collection.
+ * `theme` and `band` are pinned as single editable documents. Every other type
+ * is an ordinary collection.
  */
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -26,6 +26,6 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       S.documentTypeListItem('member').title('Members'),
       S.documentTypeListItem('show').title('Shows'),
-      S.documentTypeListItem('release').title('Releases'),
+      S.documentTypeListItem('music').title('Music'),
       S.documentTypeListItem('page').title('Pages'),
     ]);
