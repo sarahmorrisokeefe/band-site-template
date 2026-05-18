@@ -12,7 +12,9 @@ import { client } from './client';
 
 export const BAND_QUERY = defineQuery(`*[_type == "band"][0]{
   name,
+  tagline,
   bio,
+  heroImage,
   foundedYear,
   genre,
   hometown,

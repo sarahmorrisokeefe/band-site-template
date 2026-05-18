@@ -184,6 +184,7 @@ export type Band = {
   _updatedAt: string;
   _rev: string;
   name?: string;
+  tagline?: string;
   bio?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -202,6 +203,13 @@ export type Band = {
     _type: "block";
     _key: string;
   }>;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   foundedYear?: number;
   genre?: string;
   hometown?: string;
@@ -411,9 +419,10 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/queries.ts
 // Variable: BAND_QUERY
-// Query: *[_type == "band"][0]{  name,  bio,  foundedYear,  genre,  hometown,  stats,  socialLinks}
+// Query: *[_type == "band"][0]{  name,  tagline,  bio,  heroImage,  foundedYear,  genre,  hometown,  stats,  socialLinks}
 export type BAND_QUERY_RESULT = {
   name: string | null;
+  tagline: string | null;
   bio: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -432,6 +441,13 @@ export type BAND_QUERY_RESULT = {
     _type: "block";
     _key: string;
   }> | null;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
   foundedYear: number | null;
   genre: string | null;
   hometown: string | null;
@@ -582,7 +598,7 @@ export type COVERS_QUERY_RESULT = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "band"][0]{\n  name,\n  bio,\n  foundedYear,\n  genre,\n  hometown,\n  stats,\n  socialLinks\n}': BAND_QUERY_RESULT;
+    '*[_type == "band"][0]{\n  name,\n  tagline,\n  bio,\n  heroImage,\n  foundedYear,\n  genre,\n  hometown,\n  stats,\n  socialLinks\n}': BAND_QUERY_RESULT;
     '*[_type == "theme"][0]{\n  logo,\n  colors,\n  radius,\n  density\n}': THEME_QUERY_RESULT;
     '*[_type == "member"]|order(name asc){\n  _id,\n  name,\n  role,\n  photo,\n  bio,\n  socialHandle\n}': MEMBERS_QUERY_RESULT;
     '*[_type == "show"]|order(date asc){\n  _id,\n  date,\n  venueName,\n  venueCity,\n  venueArea,\n  supportAct,\n  ticketUrl,\n  status\n}': SHOWS_QUERY_RESULT;

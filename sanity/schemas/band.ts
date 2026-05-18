@@ -17,10 +17,24 @@ export const band = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'tagline',
+      title: 'Tagline',
+      type: 'string',
+      description:
+        'Short headline shown in the hero, e.g. "Pop songs you know. Louder."',
+    }),
+    defineField({
       name: 'bio',
       title: 'Biography',
       type: 'array',
       of: [{ type: 'block' }],
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Large feature image for the hero section.',
     }),
     defineField({
       name: 'foundedYear',
