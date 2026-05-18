@@ -18,11 +18,14 @@ describe('compactSocialLinks', () => {
     expect(result).toEqual([['instagram', 'https://instagram.com/band']]);
   });
 
-  it('keeps every platform that has a URL', () => {
+  it('keeps every platform that has a URL, in order', () => {
     const result = compactSocialLinks({
       instagram: 'https://instagram.com/band',
       spotify: 'https://open.spotify.com/artist/x',
     });
-    expect(result).toHaveLength(2);
+    expect(result).toEqual([
+      ['instagram', 'https://instagram.com/band'],
+      ['spotify', 'https://open.spotify.com/artist/x'],
+    ]);
   });
 });
