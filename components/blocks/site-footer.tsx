@@ -1,6 +1,6 @@
 import { type VariantProps } from 'class-variance-authority';
 
-import { BandLogo } from '@/components/primitives/band-logo';
+import { Brand } from '@/components/primitives/brand';
 import { cn } from '@/lib/cn';
 import type { THEME_QUERY_RESULT } from '@/sanity.types';
 
@@ -19,7 +19,8 @@ type SiteFooterProps = VariantProps<typeof siteFooterVariants> & {
 };
 
 /**
- * SiteFooter block: band logo, copyright, section navigation, and social
+ * SiteFooter block: band logo (or text wordmark), copyright, section
+ * navigation, and social
  * links. Nav items are supplied by the page, mirroring SiteHeader. The
  * mailing-list signup is a form and is added to this block in Phase 5.
  */
@@ -39,7 +40,7 @@ export function SiteFooter({
       style={{ paddingBlock: 'var(--brand-space-section)' }}
     >
       <div className="flex flex-col gap-4">
-        <BandLogo logo={logo} alt={bandName} size="sm" />
+        <Brand logo={logo} name={bandName} size="sm" />
         <p className="text-xs text-muted">
           © {year} {bandName}
         </p>

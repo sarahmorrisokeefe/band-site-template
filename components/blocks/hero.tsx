@@ -1,8 +1,7 @@
 import type { SanityImageSource } from '@sanity/image-url';
 
-import { BandLogo } from '@/components/primitives/band-logo';
+import { Brand } from '@/components/primitives/brand';
 import { Button } from '@/components/primitives/button';
-import { Heading } from '@/components/primitives/heading';
 import { SanityImage } from '@/components/primitives/sanity-image';
 import { cn } from '@/lib/cn';
 import type { BAND_QUERY_RESULT, THEME_QUERY_RESULT } from '@/sanity.types';
@@ -25,26 +24,6 @@ type HeroProps = {
   ctas?: LinkItem[];
   className?: string;
 };
-
-/** Band logo, falling back to the band name as a heading when no logo is set. */
-function HeroBrand({
-  logo,
-  name,
-  size,
-}: {
-  logo: ThemeLogo;
-  name: string | null;
-  size: 'md' | 'lg';
-}) {
-  if (logo?.primary) {
-    return <BandLogo logo={logo} alt={name ?? 'Band logo'} size={size} />;
-  }
-  return (
-    <Heading as="h1" size={size === 'lg' ? 'xl' : 'lg'}>
-      {name ?? 'Band'}
-    </Heading>
-  );
-}
 
 /** Call-to-action buttons; the first is primary, the rest secondary. */
 function HeroCtas({ ctas }: { ctas: LinkItem[] }) {
@@ -88,7 +67,7 @@ export function Hero({
           className,
         )}
       >
-        <HeroBrand logo={logo} name={band.name} size="lg" />
+        <Brand logo={logo} name={band.name} size="lg" as="h1" />
         {band.tagline ? (
           <p className="max-w-2xl text-lg uppercase tracking-wide text-muted">
             {band.tagline}
@@ -116,7 +95,7 @@ export function Hero({
           ) : null}
         </div>
         <div className="flex flex-col justify-center gap-5 px-8 py-16">
-          <HeroBrand logo={logo} name={band.name} size="md" />
+          <Brand logo={logo} name={band.name} size="md" as="h1" />
           {band.tagline ? (
             <p className="text-lg text-muted">{band.tagline}</p>
           ) : null}
@@ -147,7 +126,7 @@ export function Hero({
       ) : null}
       <div className="absolute inset-0 bg-foreground/60" />
       <div className="relative flex flex-col gap-5 text-background">
-        <HeroBrand logo={logo} name={band.name} size="lg" />
+        <Brand logo={logo} name={band.name} size="lg" as="h1" />
         {band.tagline ? (
           <p className="max-w-xl text-lg uppercase tracking-wide">
             {band.tagline}

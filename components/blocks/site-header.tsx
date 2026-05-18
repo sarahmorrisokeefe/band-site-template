@@ -1,6 +1,6 @@
 import { type VariantProps } from 'class-variance-authority';
 
-import { BandLogo } from '@/components/primitives/band-logo';
+import { Brand } from '@/components/primitives/brand';
 import { cn } from '@/lib/cn';
 import type { THEME_QUERY_RESULT } from '@/sanity.types';
 
@@ -22,8 +22,8 @@ type SiteHeaderProps = VariantProps<typeof siteHeaderVariants> & {
 };
 
 /**
- * Site header block: band logo, section navigation, and — on non-minimal
- * variants — social links. Nav items are supplied by the page.
+ * Site header block: band logo (or text wordmark), section navigation, and —
+ * on non-minimal variants — social links. Nav items are supplied by the page.
  */
 export function SiteHeader({
   variant,
@@ -35,7 +35,7 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   return (
     <header className={cn(siteHeaderVariants({ variant }), className)}>
-      <BandLogo logo={logo} alt={bandName} size="sm" />
+      <Brand logo={logo} name={bandName} size="sm" />
 
       <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
         {nav.map((item) => (
