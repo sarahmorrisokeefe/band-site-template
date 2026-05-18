@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { siteHeaderVariants } from './site-header';
+import { siteHeaderVariants } from './site-header-variants';
 
 describe('siteHeaderVariants', () => {
   it('applies the standard variant by default', () => {

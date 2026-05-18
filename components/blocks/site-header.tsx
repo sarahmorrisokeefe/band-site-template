@@ -1,22 +1,11 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import { type VariantProps } from 'class-variance-authority';
 
 import { BandLogo } from '@/components/primitives/band-logo';
 import { cn } from '@/lib/cn';
 import type { THEME_QUERY_RESULT } from '@/sanity.types';
 
 import type { LinkItem } from './link-item';
-
-export const siteHeaderVariants = cva('w-full px-6 py-4', {
-  variants: {
-    variant: {
-      standard: 'flex items-center justify-between gap-6',
-      minimal:
-        'flex items-center justify-between gap-6 border-b border-foreground/10',
-      centered: 'flex flex-col items-center gap-3 text-center',
-    },
-  },
-  defaultVariants: { variant: 'standard' },
-});
+import { siteHeaderVariants } from './site-header-variants';
 
 type ThemeLogo = NonNullable<THEME_QUERY_RESULT>['logo'];
 
