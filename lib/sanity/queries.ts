@@ -13,9 +13,11 @@ import { client } from './client';
 export const BAND_QUERY = defineQuery(`*[_type == "band"][0]{
   name,
   bio,
-  logo,
   foundedYear,
-  genre
+  genre,
+  hometown,
+  stats,
+  socialLinks
 }`);
 
 /**
@@ -50,5 +52,81 @@ export function getTheme() {
     THEME_QUERY,
     {},
     { next: { revalidate: 3600, tags: ['theme'] } },
+  );
+}
+
+export const MEMBERS_QUERY = defineQuery(`*[_type == "member"]|order(name asc){
+  _id,
+  name,
+  role,
+  photo,
+  bio,
+  socialHandle
+}`);
+
+/** Fetch all band members, ordered by name. */
+export function getMembers() {
+  return client.fetch(
+    MEMBERS_QUERY,
+    {},
+    { next: { revalidate: 60, tags: ['member'] } },
+  );
+}
+
+export const SHOWS_QUERY = defineQuery(`*[_type == "show"]|order(date asc){
+  _id,
+  date,
+  venueName,
+  venueCity,
+  venueArea,
+  supportAct,
+  ticketUrl,
+  status
+}`);
+
+/** Fetch all shows, soonest date first. */
+export function getShows() {
+  return client.fetch(
+    SHOWS_QUERY,
+    {},
+    { next: { revalidate: 60, tags: ['show'] } },
+  );
+}
+
+export const RELEASES_QUERY = defineQuery(`*[_type == "music" && kind != "cover"]|order(releaseDate desc){
+  _id,
+  kind,
+  title,
+  coverArt,
+  releaseDate,
+  note,
+  links
+}`);
+
+/** Fetch original releases (albums / EPs / singles), newest first. */
+export function getReleases() {
+  return client.fetch(
+    RELEASES_QUERY,
+    {},
+    { next: { revalidate: 60, tags: ['music'] } },
+  );
+}
+
+export const COVERS_QUERY = defineQuery(`*[_type == "music" && kind == "cover"]|order(coalesce(releaseDate, _createdAt) desc){
+  _id,
+  title,
+  originalArtist,
+  coverArt,
+  videoUrl,
+  note,
+  links
+}`);
+
+/** Fetch covers the band performs, newest first. */
+export function getCovers() {
+  return client.fetch(
+    COVERS_QUERY,
+    {},
+    { next: { revalidate: 60, tags: ['music'] } },
   );
 }
