@@ -22,7 +22,7 @@ describe('email subjects', () => {
 
   it('builds a subscriber welcome subject from the band name', () => {
     expect(subscriberWelcomeSubject('The Echo')).toBe(
-      'Welcome to the The Echo mailing list',
+      "Welcome to The Echo's mailing list",
     );
   });
 });

@@ -13,5 +13,5 @@ export function subscriberNotificationSubject(): string {
 }
 
 export function subscriberWelcomeSubject(bandName: string): string {
-  return `Welcome to the ${bandName} mailing list`;
+  return `Welcome to ${bandName}'s mailing list`;
 }

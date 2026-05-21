@@ -92,7 +92,7 @@ describe('emailDeliveryAdapter.deliverSubscriber', () => {
     await emailDeliveryAdapter.deliverSubscriber(subscriber);
     const [payload] = sendMock.mock.calls[1];
     expect(payload.to).toBe('fan@example.com');
-    expect(payload.subject).toBe('Welcome to the The Echo mailing list');
+    expect(payload.subject).toBe("Welcome to The Echo's mailing list");
   });
 
   it('throws when the band notification fails', async () => {
