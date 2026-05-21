@@ -11,11 +11,15 @@ describe('resolveDeliveryMode', () => {
     expect(resolveDeliveryMode('email')).toBe('email');
   });
 
-  it('throws on an unrecognised value', () => {
-    expect(() => resolveDeliveryMode('postcard')).toThrow();
+  it('defaults to "email" when the value is undefined', () => {
+    expect(resolveDeliveryMode(undefined)).toBe('email');
   });
 
-  it('throws when the value is undefined', () => {
-    expect(() => resolveDeliveryMode(undefined)).toThrow();
+  it('defaults to "email" when the value is an empty string', () => {
+    expect(resolveDeliveryMode('')).toBe('email');
+  });
+
+  it('throws on an unrecognised value', () => {
+    expect(() => resolveDeliveryMode('postcard')).toThrow();
   });
 });
