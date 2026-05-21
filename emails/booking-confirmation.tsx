@@ -16,7 +16,7 @@ export function BookingConfirmationEmail({
         Thanks, {name}!
       </Heading>
       <Text style={{ fontSize: '14px', color: '#374151' }}>
-        {bandName} has received your booking enquiry. We'll be in touch soon.
+        {bandName} has received your booking enquiry. We’ll be in touch soon.
       </Text>
     </EmailLayout>
   );
