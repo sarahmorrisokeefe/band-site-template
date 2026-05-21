@@ -58,6 +58,18 @@ export const emailDeliveryAdapter: DeliveryAdapter = {
     const resend = new Resend(requireEnv('RESEND_API_KEY'));
     const bandName = await resolveBandName();
 
+    // Dedupe only truly identical submissions — hash every field.
+    const bookingKeyParts = [
+      input.name,
+      input.email,
+      input.eventType,
+      input.venue,
+      input.city,
+      input.date,
+      input.setLength,
+      input.message,
+    ];
+
     // Fatal: the band must receive the enquiry.
     const { error } = await resend.emails.send(
       {
@@ -67,7 +79,7 @@ export const emailDeliveryAdapter: DeliveryAdapter = {
         subject: bookingNotificationSubject(input.name),
         react: BookingNotificationEmail({ input, bandName }),
       },
-      { idempotencyKey: idempotencyKey('booking', input.email, input.message) },
+      { idempotencyKey: idempotencyKey('booking', ...bookingKeyParts) },
     );
     if (error) {
       throw new Error(`Resend failed: ${error.message}`);
@@ -82,9 +94,7 @@ export const emailDeliveryAdapter: DeliveryAdapter = {
           subject: bookingConfirmationSubject(bandName),
           react: BookingConfirmationEmail({ name: input.name, bandName }),
         },
-        {
-          idempotencyKey: idempotencyKey('booking-reply', input.email, input.message),
-        },
+        { idempotencyKey: idempotencyKey('booking-reply', ...bookingKeyParts) },
       );
       if (replyError) {
         console.error('Booking confirmation email failed:', replyError);

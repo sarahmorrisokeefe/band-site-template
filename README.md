@@ -88,7 +88,7 @@ For anything beyond that, edit the block's source — each fork owns its copy.
    | `NEXT_PUBLIC_SANITY_DATASET` | Usually `production`. Public. |
    | `NEXT_PUBLIC_SANITY_API_VERSION` | API version date. Public. |
    | `SANITY_API_TOKEN` | Server-only. Viewer scope for reads; Editor scope to write form submissions or run the seed. |
-   | `BOOKING_DELIVERY` | `sanity` or `email` — how form submissions are delivered. |
+   | `BOOKING_DELIVERY` | `sanity` or `email` — how form submissions are delivered. Defaults to `email` when unset. |
    | `RESEND_API_KEY` / `RESEND_FROM` / `BOOKING_EMAIL_TO` | Only when `BOOKING_DELIVERY=email`. |
 3. Start the dev server:
    ```bash
