@@ -51,3 +51,6 @@ schema.json
 
 # claude code (local tooling state)
 /.claude/
+
+# react-email preview build artifacts
+/.react-email/
