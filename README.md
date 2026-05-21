@@ -116,15 +116,42 @@ npm run seed:clean   # remove everything the seed created
 
 ## Forms
 
-`BookingForm` and the footer mailing-list signup submit through a Next.js
-server action. Delivery is chosen per band by `BOOKING_DELIVERY`:
+`BookingForm` and the footer mailing-list signup submit through a Next.js server
+action. Delivery is chosen per band by `BOOKING_DELIVERY` (defaults to `email`):
 
-- `sanity` — writes a `bookingRequest` / `subscriber` document (needs an
-  Editor-scoped token).
-- `email` — sends via Resend (needs `RESEND_API_KEY`, `RESEND_FROM`,
-  `BOOKING_EMAIL_TO`).
+- `email` — sends via **Resend** using **React Email** templates. Each
+  submission emails the band a notification (booking enquiry or new subscriber)
+  and sends the visitor a branded auto-reply. Sends are idempotent, so an
+  accidental double-submit isn't delivered twice. Requires `RESEND_API_KEY`,
+  `RESEND_FROM`, and `BOOKING_EMAIL_TO`.
+- `sanity` — writes a `bookingRequest` / `subscriber` document instead (needs an
+  Editor-scoped `SANITY_API_TOKEN`).
 
 Both forms include a honeypot field; validation runs server-side.
+
+### Setting up Resend
+
+1. Create an account at [resend.com](https://resend.com) → **API Keys** →
+   create a key → put it in `.env.local` as `RESEND_API_KEY`.
+2. **Test without a domain:** keep `RESEND_FROM=onboarding@resend.dev` and set
+   `BOOKING_EMAIL_TO` to your own Resend account email. In test mode Resend only
+   delivers to that address — enough to verify the full flow.
+3. **Use your own domain (optional):** add a domain in Resend, set the DNS
+   records it shows you, then change `RESEND_FROM` to e.g.
+   `bookings@yourdomain.com` to send to anyone.
+4. Submit the booking form locally and confirm delivery in the Resend
+   dashboard's **Emails / Logs** view.
+
+### Previewing email templates
+
+The email templates live in `emails/`. Preview them in a browser with:
+
+```bash
+npm run email
+```
+
+This opens the React Email dev server (on port 3366) with sample data for every
+template — handy for iterating on copy and layout without sending mail.
 
 ## Adding or changing a content type
 
